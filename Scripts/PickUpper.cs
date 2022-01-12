@@ -27,6 +27,7 @@ namespace takashicompany.RunGame
 		{
 			if (other.TryGetSelfOrParentComponent<IPickUp>(out var pickUp))
 			{
+				pickUp.OnPickUp(this);
 				_onPickUp?.Invoke(pickUp);
 			}
 		}

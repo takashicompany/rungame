@@ -6,6 +6,6 @@ namespace takashicompany.RunGame
 
 	public interface IPickUp
 	{
-		
+		void OnPickUp(PickUpper pickUpper);
 	}
 }

@@ -28,6 +28,11 @@ namespace takashicompany.RunGame
 
 		private List<StackedObject> _stacked = new List<StackedObject>();
 
+		[SerializeField]
+		private UnityEngine.Events.UnityEvent<StackedObject> _onStack;
+
+		public UnityEngine.Events.UnityEvent<StackedObject> onStack => _onStack;
+
 		private void Update()
 		{
 			Align(Time.deltaTime);
@@ -37,6 +42,7 @@ namespace takashicompany.RunGame
 		{
 			_stacked.Add(stackedObject);
 			// stackedObject.transform.SetParent(transform);
+			onStack?.Invoke(stackedObject);
 		}
 
 		public void Align(float deltaTime)

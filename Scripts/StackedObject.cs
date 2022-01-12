@@ -14,6 +14,16 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private Vector3 _stackedRotation;
 
+		[SerializeField]
+		private UnityEngine.Events.UnityEvent<Stacker, StackedObject> _onStack;
+
+		public UnityEngine.Events.UnityEvent<Stacker, StackedObject> onStack => _onStack;
+
+		public void OnStacked(Stacker stacker)
+		{
+			onStack?.Invoke(stacker, this);
+		}
+
 		public Bounds GetBounds()
 		{
 			return _size.Transform(transform);

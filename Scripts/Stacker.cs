@@ -20,50 +20,65 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private Vector3 _stackPoint;
 
+		[SerializeField]
+		private float _fixSpeed = 1f;
+
 		private List<StackedObject> _stacked = new List<StackedObject>();
 
 		private void Update()
 		{
-			Align();
+			Align(Time.deltaTime);
 		}
 
 		public void AddStack(StackedObject stackedObject)
 		{
 			_stacked.Add(stackedObject);
-			stackedObject.transform.SetParent(transform);
+			// stackedObject.transform.SetParent(transform);
 		}
 
-		public void Align()
+		public void Align(float deltaTime)
 		{
 			var stackPoint = transform.TransformPoint(_stackPoint);
 
 			var point = _stackDirection.GetDirection(stackPoint);
+
+			var movementBySpeed = _fixSpeed * deltaTime;
 
 			for (int i = 0; i < _stacked.Count; i++)
 			{
 				var current = _stacked[i];
 				var bounds = current.GetBounds();
 				
-				var p = current.transform.position;
+				var currentPosition = current.transform.position;
+				currentPosition[_stackDirection.ToV3Index()] = point;
 				
 				if (0 < i)
 				{
-					var prev = _stacked[i];
-
+					var prev = _stacked[i - 1];
+					
+					var x = currentPosition.x;
 					var prevBounds = prev.GetBounds();
+					var offset = prev.transform.position.x - x;
+					
+					if (Mathf.Abs(offset) > movementBySpeed)
+					{
+						x += Mathf.Sign(offset) * movementBySpeed;
+					}
+					else
+					{
+						x = prev.transform.position.x;
+					}
+					
+					x = Mathf.Clamp(x, prevBounds.min.x, prevBounds.max.x);
 
-					var x = Mathf.Clamp(p.x, prevBounds.min.x, prevBounds.max.x);
-
-					p.x = x;
+					currentPosition.x = x;
 				}
 				else
 				{
-					p.x = stackPoint.x;
+					currentPosition.x = stackPoint.x;
 				}
-
-				p[_stackDirection.ToV3Index()] = point;
 				
-				current.transform.position = p;
+				current.transform.position = currentPosition;
 
 				point = _stackDirection.GetBoundsEnd(bounds);
 			}

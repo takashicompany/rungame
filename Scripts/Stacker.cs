@@ -5,8 +5,17 @@ namespace takashicompany.RunGame
 	using System.Linq;
 	using UnityEngine;
 
-	public class DepthStackker : MonoBehaviour
+	public class Stacker : MonoBehaviour
 	{
-		
+		public enum StackDirection
+		{
+			Forward,
+			Up,
+		}
+
+		[SerializeField]
+		private StackDirection _stackDirection;
+
+		private List<StackedObject> _stacked;
 	}
 }

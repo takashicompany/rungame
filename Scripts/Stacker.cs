@@ -23,6 +23,9 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private float _fixSpeed = 1f;
 
+		[SerializeField]
+		private bool _alignWithRotate;
+
 		private List<StackedObject> _stacked = new List<StackedObject>();
 
 		private void Update()
@@ -72,6 +75,11 @@ namespace takashicompany.RunGame
 					x = Mathf.Clamp(x, prevBounds.min.x, prevBounds.max.x);
 
 					currentPosition.x = x;
+
+					if (_alignWithRotate)
+					{
+						current.transform.LookAt(currentPosition + (currentPosition - prev.transform.position) / 2);
+					}
 				}
 				else
 				{

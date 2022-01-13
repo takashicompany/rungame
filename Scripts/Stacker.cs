@@ -43,6 +43,7 @@ namespace takashicompany.RunGame
 			_stacked.Add(stackedObject);
 			// stackedObject.transform.SetParent(transform);
 			onStack?.Invoke(stackedObject);
+			stackedObject.OnStacked(this);
 		}
 
 		public void Align(float deltaTime)

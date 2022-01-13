@@ -19,15 +19,33 @@ namespace takashicompany.RunGame
 
 		public UnityEngine.Events.UnityEvent<Stacker, StackedObject> onStack => _onStack;
 
+		[SerializeField]
+		private  UnityEngine.Events.UnityEvent<StackedObject> _onUnstack;
+
+		public  UnityEngine.Events.UnityEvent<StackedObject> onUnstack => _onUnstack;
+
+		public Stacker stacker { get; private set; }
+
 		public void OnStacked(Stacker stacker)
 		{
+			this.stacker = stacker;
 			onStack?.Invoke(stacker, this);
+		}
+
+		public void OnUnstacked()
+		{
+			this.stacker = null;
+			_onUnstack?.Invoke(this);
 		}
 
 		public Bounds GetBounds()
 		{
 			return _size.Transform(transform);
 		}
-		
+
+		public bool IsStacked()
+		{
+			return stacker != null;
+		}
 	}
 }

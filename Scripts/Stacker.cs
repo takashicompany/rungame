@@ -46,6 +46,12 @@ namespace takashicompany.RunGame
 			stackedObject.OnStacked(this);
 		}
 
+		public void RemoveStack(StackedObject stackedObject)
+		{
+			_stacked.Remove(stackedObject);
+			stackedObject.OnUnstacked();
+		}
+
 		public void Align(float deltaTime)
 		{
 			var stackPoint = transform.TransformPoint(_stackPoint);

@@ -27,5 +27,11 @@ namespace takashicompany.RunGame
 
 			_rigidbody.MovePosition(_rigidbody.position += Vector3.right * ratio * _speedX);
 		}
+
+		public override void Stop()
+		{
+			base.Stop();
+			this.enabled = false;
+		}
 	}
 } 

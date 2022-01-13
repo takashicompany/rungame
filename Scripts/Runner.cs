@@ -14,10 +14,25 @@ namespace takashicompany.RunGame
 
 		protected virtual void OnTriggerEnter(Collider other)
 		{
+			TryGoal(other);
+		}
+
+		public bool TryGoal(Collider other)
+		{
 			if (other.TryGetComponent<IGoal>(out var goal))
 			{
 				_onGoal?.Invoke(goal);
+				goal.OnGoal(this);
+
+				return true;
 			}
+
+			return false;
+		}
+
+		public virtual void Stop()
+		{
+			
 		}
 	}
 }

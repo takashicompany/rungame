@@ -23,13 +23,17 @@ namespace takashicompany.RunGame
 			TryPickup(other);
 		}
 
-		private void TryPickup(Collider other)
+		public bool TryPickup(Collider other)
 		{
-			if (other.TryGetSelfOrParentComponent<IPickUp>(out var pickUp))
+			if (other.TryGetSelfOrParentComponent<IPickUp>(out var pickUp) && pickUp.canPickedUp)
 			{
 				pickUp.OnPickUp(this);
 				_onPickUp?.Invoke(pickUp);
+
+				return true;
 			}
+
+			return false;
 		}
 	}
 }

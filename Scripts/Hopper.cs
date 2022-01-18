@@ -21,7 +21,7 @@ namespace takashicompany.RunGame
 
 		public void Hop()
 		{
-			Hop(_hopPower, _hopPosition);
+			Hop(_hopPower, GetHopWorldPosition());
 		}
 
 		private Vector3 GetHopWorldPosition()

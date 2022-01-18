@@ -5,7 +5,7 @@ namespace takashicompany.RunGame
 	using UnityEngine;
 	using UnityEngine.Events;
 
-	public abstract class Runner : TaBehabviour
+	public abstract class Runner : takashicompany.Unity.TaBehabviour
 	{
 		[SerializeField]
 		private UnityEvent<IGoal> _onGoal;

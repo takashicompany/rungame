@@ -4,6 +4,7 @@ namespace takashicompany.RunGame
 	using System.Collections.Generic;
 	using UnityEngine;
 	using UnityEngine.Events;
+	using takashicompany.Unity;
 
 	[RequireComponent(typeof(Collider))]
 	public class PickUpper : TaBehabviour

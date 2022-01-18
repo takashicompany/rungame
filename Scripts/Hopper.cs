@@ -8,31 +8,33 @@ namespace takashicompany.RunGame
 	[RequireComponent(typeof(Rigidbody))]
 	public class Hopper : Runner
 	{
-		[SerializeField]
-		private Vector3 _hopPosition;
-
+		
 		[SerializeField]
 		private Vector3 _hopPower;
 
-		private void Hop(Vector3 power, Vector3 position)
+		[SerializeField]
+		private Vector3 _hopTorque;
+
+		private void Hop(Vector3 power, Vector3 torque)
 		{
-			_rigidbody.AddForceAtPosition(power, position);
+			_rigidbody.AddForce(power);
+			_rigidbody.AddRelativeTorque(torque);
 		}
 
 		public void Hop()
 		{
-			Hop(_hopPower, GetHopWorldPosition());
+			Hop(_hopPower, _hopTorque);
 		}
 
-		private Vector3 GetHopWorldPosition()
-		{
-			return transform.TransformVector(_hopPosition);
-		}
+		// private Vector3 GetHopWorldPosition()
+		// {
+		// 	return transform.TransformVector(_hopPosition);
+		// }
 
-		private void OnDrawGizmos()
-		{
-			Gizmos.color = Color.red;
-			takashicompany.Unity.Utils.DrawGizmosPoint(GetHopWorldPosition());
-		}
+		// private void OnDrawGizmos()
+		// {
+		// 	Gizmos.color = Color.red;
+		// 	takashicompany.Unity.Utils.DrawGizmosPoint(GetHopWorldPosition());
+		// }
 	}
 }

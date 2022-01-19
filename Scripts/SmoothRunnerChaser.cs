@@ -68,8 +68,10 @@ namespace takashicompany.RunGame
 				}
 
 				transform.position = p;
-
+				_prevPosition = transform.position;
 			}
+
+			
 		}
 
 		public void RemoveTarget()

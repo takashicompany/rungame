@@ -12,11 +12,18 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private bool _chaseOnlyZ = true;
 
+		[SerializeField]
+		private bool _onlyForward = false;
+
 		private Runner _target;
+
+		private Vector3 _prevPosition;
 
 		// Start is called before the first frame update
 		void Start()
 		{
+			_prevPosition = transform.position;
+
 			if (_findTargetOnStart)
 			{
 				var runner = GameObject.FindObjectOfType<Runner>();
@@ -39,7 +46,16 @@ namespace takashicompany.RunGame
 					p.y = transform.position.y;
 				}
 
+				if (_onlyForward)
+				{
+					if (_prevPosition.z > p.z)
+					{
+						p.z = _prevPosition.z;
+					}
+				}
+
 				transform.position = p;
+				_prevPosition = transform.position;
 			}
 		}
 

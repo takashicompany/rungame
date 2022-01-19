@@ -17,7 +17,7 @@ namespace takashicompany.RunGame
 
 		private void Hop(Vector3 power, Vector3 torque)
 		{
-			_rigidbody.AddForce(power);
+			_rigidbody.AddForce(power, ForceMode.Impulse);
 			_rigidbody.AddRelativeTorque(torque);
 		}
 

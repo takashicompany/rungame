@@ -4,7 +4,13 @@ namespace takashicompany.RunGame
 	using System.Collections.Generic;
 	using UnityEngine;
 
-	public class RunnerChaser : MonoBehaviour
+	public interface IRunnerChaser
+	{
+		void SetTarget(Runner runner);
+		void RemoveTarget();
+	}
+
+	public class RunnerChaser : MonoBehaviour, IRunnerChaser
 	{
 		[SerializeField]
 		private bool _findTargetOnStart;
@@ -62,6 +68,11 @@ namespace takashicompany.RunGame
 		public void SetTarget(Runner target)
 		{
 			_target = target;
+		}
+
+		public void RemoveTarget()
+		{
+			_target = null;
 		}
 	}
 }

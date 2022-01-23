@@ -23,6 +23,23 @@ namespace takashicompany.RunGame
 			TryPickup(other);
 		}
 
+		// TODO Pickup -> PickUp
+
+		public void Pickup(Collision collision)
+		{
+			TryPickup(collision);
+		}
+
+		public bool TryPickup(Collision collision)
+		{
+			return TryPickup(collision.collider);
+		}
+
+		public void Pickup(Collider collider)
+		{
+			TryPickup(collider);
+		}
+
 		public bool TryPickup(Collider other)
 		{
 			if (other.TryGetSelfOrParentComponent<IPickUp>(out var pickUp) && pickUp.canPickedUp)

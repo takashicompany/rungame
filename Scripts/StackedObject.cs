@@ -47,5 +47,12 @@ namespace takashicompany.RunGame
 		{
 			return stacker != null;
 		}
+
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.blue;
+			var b = GetBounds();
+			Gizmos.DrawWireCube(b.center, b.size);
+		}
 	}
 }

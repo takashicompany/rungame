@@ -4,8 +4,9 @@ namespace takashicompany.RunGame
 	using System.Collections.Generic;
 	using System.Linq;
 	using UnityEngine;
+	using takashicompany.Unity;
 
-	public class Stacker : MonoBehaviour
+	public class Stacker : TaBehabviour
 	{
 		public enum StackDirection
 		{
@@ -26,12 +27,24 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private bool _alignWithRotate;
 
+		[SerializeField]
 		private List<StackedObject> _stacked = new List<StackedObject>();
 
 		[SerializeField]
 		private UnityEngine.Events.UnityEvent<StackedObject> _onStack;
 
 		public UnityEngine.Events.UnityEvent<StackedObject> onStack => _onStack;
+
+		[SerializeField]
+		private bool _listenStackedColliderEvent;
+		
+		private void Start()
+		{
+			foreach (var s in _stacked)
+			{
+				OnAddStack(s);
+			}
+		}
 
 		private void Update()
 		{
@@ -42,14 +55,59 @@ namespace takashicompany.RunGame
 		{
 			_stacked.Add(stackedObject);
 			// stackedObject.transform.SetParent(transform);
+			OnAddStack(stackedObject);
+		}
+
+		private void OnAddStack(StackedObject stackedObject)
+		{
 			onStack?.Invoke(stackedObject);
 			stackedObject.OnStacked(this);
+
+			// TODO コンポーネントに分けたほうがいいかも
+			if (_listenStackedColliderEvent)
+			{
+				if (TryGetComponent<PickUpper>(out var pickUpper))
+				{
+					if (!stackedObject.TryGetComponent<ColliderReceiver>(out var receiver))
+					{
+						receiver = stackedObject.gameObject.AddComponent<ColliderReceiver>();
+					}
+
+					if (!stackedObject.TryGetComponent<Rigidbody>(out var rb))
+					{
+						rb = stackedObject.gameObject.AddComponent<Rigidbody>();
+					}
+
+					rb.isKinematic = _rigidbody.isKinematic;
+
+					// 一応外しておく
+					receiver.onCollisionEnter -= pickUpper.Pickup;
+					receiver.onTriggerEnter -= pickUpper.Pickup;
+
+					receiver.onCollisionEnter += pickUpper.Pickup;
+					receiver.onTriggerEnter += pickUpper.Pickup;
+				}
+				
+			}
 		}
 
 		public void RemoveStack(StackedObject stackedObject)
 		{
 			_stacked.Remove(stackedObject);
 			stackedObject.OnUnstacked();
+
+			// TODO コンポーネントに分けたほうがいいかも
+			if (_listenStackedColliderEvent)
+			{
+				if (TryGetComponent<PickUpper>(out var pickUpper))
+				{
+					if (stackedObject.TryGetComponent<ColliderReceiver>(out var receiver))
+					{
+						receiver.onCollisionEnter -= pickUpper.Pickup;
+						receiver.onTriggerEnter -= pickUpper.Pickup;
+					}
+				}
+			}
 		}
 
 		public void Align(float deltaTime)

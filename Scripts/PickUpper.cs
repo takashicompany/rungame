@@ -36,4 +36,12 @@ namespace takashicompany.RunGame
 			return false;
 		}
 	}
+
+	public static class PickUpperExtension
+	{
+		public static bool IsStacker(this PickUpper self, out Stacker stacker)
+		{
+			return self.TryGetComponent<Stacker>(out stacker);
+		}
+	}
 }

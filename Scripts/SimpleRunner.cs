@@ -15,6 +15,8 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private float _speedZ = 5f;
 
+		public float speedZ => _speedZ;
+
 		private void FixedUpdate()
 		{
 			_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * _speedZ * Time.fixedDeltaTime);
@@ -32,6 +34,11 @@ namespace takashicompany.RunGame
 		{
 			base.Stop();
 			this.enabled = false;
+		}
+
+		public void SetSpeedZ(float z)
+		{
+			_speedZ = z;
 		}
 	}
 } 

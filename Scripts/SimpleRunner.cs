@@ -15,11 +15,25 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private float _speedZ = 5f;
 
+		[SerializeField]
+		private bool _isMoveByVelocity;
+
 		public float speedZ => _speedZ;
 
 		private void FixedUpdate()
 		{
-			_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * _speedZ * Time.fixedDeltaTime);
+			if (_isMoveByVelocity)
+			{
+				var v = _rigidbody.velocity;
+				
+				v.z = _speedZ;
+
+				_rigidbody.velocity = v;
+			}
+			else
+			{
+				_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * _speedZ * Time.fixedDeltaTime);
+			}
 		}
 
 		void IDragHandler.OnDrag(PointerEventData eventData)

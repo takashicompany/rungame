@@ -38,6 +38,11 @@ namespace takashicompany.RunGame
 
 		void IDragHandler.OnDrag(PointerEventData eventData)
 		{
+			if (!enabled)
+			{
+				return;
+			}
+
 			var delta = eventData.delta;
 			var ratio = delta.x / Screen.width;
 

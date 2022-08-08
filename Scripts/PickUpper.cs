@@ -6,7 +6,7 @@ namespace takashicompany.RunGame
 	using UnityEngine.Events;
 	using takashicompany.Unity;
 
-	public class PickUpper : TaBehabviour
+	public class PickUpper : TaBehaviour
 	{
 		[SerializeField]
 		private UnityEvent<IPickUp> _onPickUp;

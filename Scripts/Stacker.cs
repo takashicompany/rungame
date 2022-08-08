@@ -6,7 +6,7 @@ namespace takashicompany.RunGame
 	using UnityEngine;
 	using takashicompany.Unity;
 
-	public class Stacker : TaBehabviour
+	public class Stacker : TaBehaviour
 	{
 		public enum StackDirection
 		{

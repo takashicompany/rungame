@@ -5,7 +5,7 @@ namespace takashicompany.RunGame
 	using UnityEngine;
 	using UnityEngine.Events;
 
-	public abstract class Runner : takashicompany.Unity.TaBehabviour
+	public abstract class Runner : takashicompany.Unity.TaBehaviour
 	{
 		[SerializeField]
 		private UnityEvent<IGoal> _onGoal;

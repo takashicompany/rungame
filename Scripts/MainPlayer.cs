@@ -6,7 +6,7 @@ namespace takashicompany.RunGame
 	using UnityEngine;
 	using takashicompany.Unity;
 
-	public class MainPlayer : TaBehabviour
+	public class MainPlayer : TaBehaviour
 	{
 		private Runner _runnerIntenral;
 

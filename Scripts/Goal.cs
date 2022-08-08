@@ -13,12 +13,19 @@ namespace takashicompany.RunGame
 	[RequireComponent(typeof(Collider))]
 	public class Goal : MonoBehaviour, IGoal
 	{
+		[SerializeField]
 		private UnityEvent<Goal> _onGoal;
 		public UnityEvent<Goal> onGoal => _onGoal;
 		
 		public virtual void OnGoal(Runner runner)
 		{
 			_onGoal?.Invoke(this);
+		}
+
+		public static GameObject LevelComplete()
+		{
+			var prefab = Resources.Load<GameObject>("RunGame/SimpleLevelComplete");
+			return Instantiate(prefab);
 		}
 	}
 }

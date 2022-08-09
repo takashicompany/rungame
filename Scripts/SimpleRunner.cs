@@ -10,15 +10,12 @@ namespace takashicompany.RunGame
 	public class SimpleRunner : Runner, IDragHandler
 	{
 		[SerializeField]
-		private float _speedX = 2f;
-
-		[SerializeField]
-		private float _speedZ = 5f;
+		private Vector3 _speed = new Vector3(2, 0, 5);
 
 		[SerializeField]
 		private bool _isMoveByVelocity;
 
-		public float speedZ => _speedZ;
+		public float speedZ => _speed.z;
 
 		private void FixedUpdate()
 		{
@@ -26,13 +23,13 @@ namespace takashicompany.RunGame
 			{
 				var v = _rigidbody.velocity;
 				
-				v.z = _speedZ;
+				v.z = speedZ;
 
 				_rigidbody.velocity = v;
 			}
 			else
 			{
-				_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * _speedZ * Time.fixedDeltaTime);
+				_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * speedZ * Time.fixedDeltaTime);
 			}
 		}
 
@@ -44,9 +41,10 @@ namespace takashicompany.RunGame
 			}
 
 			var delta = eventData.delta;
-			var ratio = delta.x / Screen.width;
+			var ratioX = delta.x / Screen.width;
+			var ratioY = delta.y / Screen.height;
 
-			_rigidbody.MovePosition(_rigidbody.position += Vector3.right * ratio * _speedX);
+			_rigidbody.MovePosition(_rigidbody.position += new Vector3(_speed.x * ratioX, _speed.y * ratioY, 0));
 		}
 
 		public override void Stop()
@@ -57,7 +55,9 @@ namespace takashicompany.RunGame
 
 		public void SetSpeedZ(float z)
 		{
-			_speedZ = z;
+			var speed = _speed;
+			speed.z = z;
+			_speed = speed;
 		}
 	}
 } 

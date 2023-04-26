@@ -5,17 +5,16 @@ namespace takashicompany.RunGame
 	using System.Collections.Generic;
 	using UnityEngine;
 	using UnityEngine.EventSystems;
+	using takashicompany.Unity;
 
 	[RequireComponent(typeof(Rigidbody))]
 	public class SimpleRunner : Runner, IDragHandler
 	{
 		[SerializeField]
-		private Vector3 _speed = new Vector3(2, 0, 5);
+		private float _speed = 5f;
 
 		[SerializeField]
 		private bool _isMoveByVelocity;
-
-		public float speedZ => _speed.z;
 
 		private void FixedUpdate()
 		{
@@ -23,13 +22,13 @@ namespace takashicompany.RunGame
 			{
 				var v = _rigidbody.velocity;
 				
-				v.z = speedZ;
+				v.z = _speed;
 
 				_rigidbody.velocity = v;
 			}
 			else
 			{
-				_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * speedZ * Time.fixedDeltaTime);
+				_rigidbody.MovePosition(_rigidbody.position += Vector3.forward * _speed * Time.fixedDeltaTime);
 			}
 		}
 
@@ -40,11 +39,25 @@ namespace takashicompany.RunGame
 				return;
 			}
 
-			var delta = eventData.delta;
-			var ratioX = delta.x / Screen.width;
-			var ratioY = delta.y / Screen.height;
+			var camera = Camera.main;
 
-			_rigidbody.MovePosition(_rigidbody.position += new Vector3(_speed.x * ratioX, _speed.y * ratioY, 0));
+			var sp = camera.WorldToScreenPoint(transform.position);
+
+			sp.x = eventData.position.x;
+
+			var ray = camera.ScreenPointToRay(sp);
+
+			ray.TryGetPositionOnRay(1, 0f, out var wp);
+			wp.y = transform.position.y;
+			wp.z = transform.position.z;
+
+			_rigidbody.MovePosition(wp);
+
+			// var delta = eventData.delta;
+			// var ratioX = delta.x / Screen.width;
+			// var ratioY = delta.y / Screen.height;
+
+			// _rigidbody.MovePosition(_rigidbody.position += new Vector3(_speed.x * ratioX, _speed.y * ratioY, 0));
 		}
 
 		public override void Stop()
@@ -53,11 +66,9 @@ namespace takashicompany.RunGame
 			this.enabled = false;
 		}
 
-		public void SetSpeedZ(float z)
+		public void SetSpeed(float z)
 		{
-			var speed = _speed;
-			speed.z = z;
-			_speed = speed;
+			_speed = z;
 		}
 	}
 } 

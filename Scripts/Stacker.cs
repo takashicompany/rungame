@@ -16,7 +16,7 @@ namespace takashicompany.RunGame
 		}
 
 		[SerializeField]
-		private StackDirection _stackDirection;
+		private StackDirection _stackDirection = StackDirection.Up;
 
 		[SerializeField]
 		private Vector3 _stackPoint;
@@ -49,6 +49,14 @@ namespace takashicompany.RunGame
 		private void Update()
 		{
 			Align(Time.deltaTime);
+		}
+
+		public void AddStack(IPickUp pickUp)
+		{
+			if (pickUp.IsStackedObject(out var stackedObject))
+			{
+				AddStack(stackedObject);
+			}
 		}
 
 		public void AddStack(StackedObject stackedObject)

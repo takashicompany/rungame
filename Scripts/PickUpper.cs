@@ -42,7 +42,7 @@ namespace takashicompany.RunGame
 
 		public bool TryPickup(Collider other)
 		{
-			if (other.TryGetSelfOrParentComponent<IPickUp>(out var pickUp) && pickUp.canPickedUp)
+			if (other.TryGetComponentInParent<IPickUp>(out var pickUp) && pickUp.canPickedUp)
 			{
 				pickUp.OnPickUp(this);
 				_onPickUp?.Invoke(pickUp);

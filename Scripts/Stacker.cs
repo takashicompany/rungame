@@ -19,7 +19,7 @@ namespace takashicompany.RunGame
 		private StackDirection _stackDirection = StackDirection.Up;
 
 		[SerializeField]
-		private Vector3 _stackPoint;
+		private Vector3 _stackPosition = new Vector3(0, 0.5f, -0.5f);
 
 		[SerializeField]
 		private float _fixSpeed = 1f;
@@ -120,26 +120,27 @@ namespace takashicompany.RunGame
 
 		public void Align(float deltaTime)
 		{
-			var stackPoint = transform.TransformPoint(_stackPoint);
-
-			var point = _stackDirection.GetDirection(stackPoint);
+			var stackPosition = transform.TransformPoint(_stackPosition);
+			
+			var distance = _stackDirection.GetDirection(stackPosition);
 
 			var movementBySpeed = _fixSpeed * deltaTime;
 
 			for (int i = 0; i < _stacked.Count; i++)
 			{
 				var current = _stacked[i];
-				var bounds = current.GetBounds();
+				var bounds = current.size;
 				
 				var currentPosition = current.transform.position;
-				currentPosition[_stackDirection.ToV3Index()] = point;
+				currentPosition[_stackDirection.ToV3FixedIndex()] = stackPosition[_stackDirection.ToV3FixedIndex()];
+				currentPosition[_stackDirection.ToV3Index()] = distance;
 				
 				if (0 < i)
 				{
 					var prev = _stacked[i - 1];
 					
 					var x = currentPosition.x;
-					var prevBounds = prev.GetBounds();
+					var prevBounds = prev.GetWorldBounds();
 					var offset = prev.transform.position.x - x;
 					
 					if (Mathf.Abs(offset) > movementBySpeed)
@@ -162,12 +163,12 @@ namespace takashicompany.RunGame
 				}
 				else
 				{
-					currentPosition.x = stackPoint.x;
+					currentPosition.x = stackPosition.x;
 				}
 				
 				current.transform.position = currentPosition;
 
-				point = _stackDirection.GetBoundsEnd(bounds);
+				distance += bounds.size[_stackDirection.ToV3Index()];
 			}
 		}
 	}
@@ -177,6 +178,17 @@ namespace takashicompany.RunGame
 		public static int ToV3Index(this Stacker.StackDirection self)
 		{
 			return (int)self;
+		}
+
+		public static int ToV3FixedIndex(this Stacker.StackDirection self)
+		{
+			switch (self)
+			{
+				case Stacker.StackDirection.Up: return 2;
+				case Stacker.StackDirection.Forward: return 1;
+			}
+
+			throw new System.NotImplementedException();
 		}
 
 		public static float GetDirection(this Stacker.StackDirection direction, Vector3 v3)

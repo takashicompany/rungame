@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6803904164792255996}
   - component: {fileID: 6803904164792255998}
   - component: {fileID: 6803904164792255997}
+  - component: {fileID: 1495957416}
+  - component: {fileID: 1495957417}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -94,6 +96,54 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1495957416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6803904164792255992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98522fbf356e44112a8feb3bd0f97c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stackDirection: 1
+  _stackPosition: {x: 0, y: 0.5, z: -0.5}
+  _fixSpeed: 1
+  _alignWithRotate: 0
+  _stacked: []
+  _onStack:
+    m_PersistentCalls:
+      m_Calls: []
+  _listenStackedColliderEvent: 0
+--- !u!114 &1495957417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6803904164792255992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d393d3accbdb441e1a1e347a6316e8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onPickUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1495957416}
+        m_TargetAssemblyTypeName: takashicompany.RunGame.Stacker, Assembly-CSharp
+        m_MethodName: AddStack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6803904166128639779
 GameObject:
   m_ObjectHideFlags: 0

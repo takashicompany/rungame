@@ -12,11 +12,13 @@ namespace takashicompany.RunGame
 
 	public class PickUpObject : MonoBehaviour, IPickUp
 	{
-		bool IPickUp.canPickedUp => true;
+		private bool _isPicked = false;
+
+		bool IPickUp.canPickedUp => !_isPicked;
 
 		void IPickUp.OnPickUp(PickUpper pickUpper)
 		{
-			
+			_isPicked = true;
 		}
 	}
 

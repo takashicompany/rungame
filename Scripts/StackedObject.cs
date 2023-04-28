@@ -11,6 +11,8 @@ namespace takashicompany.RunGame
 		[SerializeField]
 		private Bounds _size = new Bounds(Vector3.zero, Vector3.one);
 
+		public Bounds size => _size;
+
 		[SerializeField]
 		private Vector3 _stackedRotation;
 
@@ -38,7 +40,7 @@ namespace takashicompany.RunGame
 			_onUnstack?.Invoke(this);
 		}
 
-		public Bounds GetBounds()
+		public Bounds GetWorldBounds()
 		{
 			return _size.Transform(transform);
 		}
@@ -51,7 +53,7 @@ namespace takashicompany.RunGame
 		private void OnDrawGizmos()
 		{
 			Gizmos.color = Color.blue;
-			var b = GetBounds();
+			var b = GetWorldBounds();
 			Gizmos.DrawWireCube(b.center, b.size);
 		}
 	}
